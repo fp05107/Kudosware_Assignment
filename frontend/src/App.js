@@ -1,6 +1,5 @@
 import './App.css';
 import Signup from './components/Signup';
-import Login from './components/Login';
 import Simple from './components/Navbar';
 
 function App() {
@@ -8,7 +7,6 @@ function App() {
     <div className="App">
       <Simple />
       <Signup />
-      {/* <Login /> */}
     </div>
   );
 }

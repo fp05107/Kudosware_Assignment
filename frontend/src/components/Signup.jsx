@@ -13,13 +13,11 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Link,
-  Radio,
-  RadioGroup,
-  FormHelperText,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { postData } from "./api.js";
+
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,6 +28,8 @@ export default function Signup() {
     email: "",
     password: "",
     resume: null,
+    country: "",
+    gender: "",
   });
 
   const handleInputChange = (event) => {
@@ -58,8 +58,8 @@ export default function Signup() {
     "West Indies",
     "Argentina",
   ];
-
   countries.sort();
+  let genders = ["Male", "Female", "Others"];
 
   const handleFileUpload = (event) => {
     setFormData((prevState) => ({
@@ -71,7 +71,17 @@ export default function Signup() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // TODO: Send form data to backend API
+    postData(formData);
     console.log(formData);
+    setFormData({
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      resume: null,
+      country: "",
+      gender: "",
+    });
   };
 
   return (
@@ -101,24 +111,44 @@ export default function Signup() {
               <Box>
                 <FormControl id="firstName" isRequired>
                   <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
+                  <Input
+                    name="firstname"
+                    type="text"
+                    value={formData.firstname}
+                    onChange={handleInputChange}
+                  />
                 </FormControl>
               </Box>
               <Box>
                 <FormControl id="lastName">
                   <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
+                  <Input
+                    name="lastname"
+                    type="text"
+                    value={formData.lastname}
+                    onChange={handleInputChange}
+                  />
                 </FormControl>
               </Box>
             </HStack>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input
+                name="email"
+                value={formData.email}
+                type="email"
+                onChange={handleInputChange}
+              />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
+                <Input
+                  name="password"
+                  value={formData.password}
+                  type={showPassword ? "text" : "password"}
+                  onChange={handleInputChange}
+                />
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
@@ -133,9 +163,19 @@ export default function Signup() {
             </FormControl>
             <FormControl id="resume" mb={4}>
               <FormLabel>Resume</FormLabel>
-              <Input type="file" name="resume" onChange={handleFileUpload} />
+              <Input
+                type="file"
+                // value=""
+                name="resume"
+                onChange={handleFileUpload}
+              />
             </FormControl>
-            <Select placeholder="Select option">
+            <Select
+              placeholder="Select option"
+              name="country"
+              value={formData.country}
+              onChange={handleInputChange}
+            >
               {countries.map((country, index) => {
                 return (
                   <option key={index} value={country}>
@@ -145,22 +185,25 @@ export default function Signup() {
               })}
             </Select>
 
-            <FormControl as="fieldset">
-              <FormLabel as="legend" htmlFor={null}>
-                Favorite Naruto Character
-              </FormLabel>
-              <RadioGroup defaultValue="Itachi">
-                <HStack spacing="24px">
-                  <Radio value="Male">Male</Radio>
-                  <Radio value="Female">Female</Radio>
-                  <Radio value="Prefer Not To Say">Prefer Not To Say</Radio>
-                  <Radio value="Other">Other</Radio>
-                </HStack>
-              </RadioGroup>
-            </FormControl>
+            <Select
+              placeholder="Select option"
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+            >
+              {genders.map((gender, index) => {
+                return (
+                  <option key={index} value={gender}>
+                    {gender}
+                  </option>
+                );
+              })}
+            </Select>
+
             <Stack spacing={10} pt={2}>
               <Button
-                onClick={() => handleSubmit}
+                type="submit"
+                onClick={handleSubmit}
                 loadingText="Submitting"
                 size="lg"
                 bg={"blue.400"}
@@ -172,42 +215,9 @@ export default function Signup() {
                 Submit
               </Button>
             </Stack>
-            <Stack pt={6}>
-              <Text align={"center"}>
-                Already a user? <Link color={"blue.400"}>Login</Link>
-              </Text>
-            </Stack>
           </Stack>
         </Box>
       </Stack>
     </Flex>
   );
-}
-
-{
-  /* <option value="option2">USA</option>
-<option value="option3">Australia</option>
-<option value="option3">New Zealand</option>
-<option value="option3">China</option>
-<option value="option3">Pakistan</option>
-<option value="option3">Nepal</option>
-<option value="option3">South Africa</option>
-<option value="option3">United Kingdom</option>
-<option value="option3">West Indies</option>
-<option value="option3">Bangladesh</option>
-<option value="option3">Malyasia</option>
-<option value="option3">South Korea</option>
-<option value="option3">North Korea</option>
-<option value="option3">Sri Lanka</option>
-<option value="option3">Japan</option>
-<option value="option3">Indonesia</option>
-<option value="option3">Brazil</option>
-<option value="option3">France</option>
-<option value="option3">Turki</option>
-<option value="option3">Iran</option>
-<option value="option3">Irak</option>
-<option value="option3">Canada</option>
-<option value="option3">Germany</option>
-<option value="option3">Argemntina</option>
-<option value="option3">Egypt</option> */
 }

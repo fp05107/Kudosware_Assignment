@@ -4,8 +4,15 @@ const User = require("../model/user.model.js");
 const router = express.Router();
 
 // Showing home page
-router.get("/hi", function (req, res) {
-  res.send("Hii")
+router.get("/applicants", async function (req, res) {
+  
+	try {
+		const data = await User.find()
+		return res.status(200).send(data);
+	  } catch (error) {
+		return res.status(404).send({ message: error.message });
+	  }
+	
 });
 
 // Handling user signup
@@ -18,9 +25,15 @@ router.post("/register", async (req, res) => {
     country: req.body.country,
     gender: req.body.gender,
   });
+
   // send response to client
-  res.send(user)
-  res.status(200).json({ message: 'Post created successfully' });
+  try {
+    await user.save();
+    res.send(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
 });
 
 module.exports = router;
