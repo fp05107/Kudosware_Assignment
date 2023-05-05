@@ -51,4 +51,4 @@
 <br/>
 <br/>
 <h2>Applicants Page</h2>
-<img src="./Images/kudoswareApplicants.png/>
+<img src="./Images/kudoswareApplicants.png" />
