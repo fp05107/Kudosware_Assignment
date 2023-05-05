@@ -47,8 +47,8 @@
 </html>
 
 <h2>Registration page</h2>
-<img src="./images/kudoswareSignup.png" />
+<img src="https://drive.google.com/file/d/1UDowwfLQ_-BsXeCxlkhDO0a1T7YJ96IE/view?usp=sharing" />
 <br/>
 <br/>
 <h2>Applicants Page</h2>
-<img src="./images/kudoswareApplicants.png" />
+<img src="https://drive.google.com/file/d/1Uz3YpwvJM-dwmWrMRoj2Uois1jbvefv9/view?usp=sharing" />
