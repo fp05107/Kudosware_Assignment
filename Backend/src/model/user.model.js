@@ -8,6 +8,7 @@ var User = new Schema(
     resume: String,
     country: String,
     gender: String,
+    email: String
   },
   {
     versionKey: false,

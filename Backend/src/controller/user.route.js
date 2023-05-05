@@ -24,6 +24,7 @@ router.post("/register", async (req, res) => {
     resume: req.body.resume,
     country: req.body.country,
     gender: req.body.gender,
+    email: req.body.email
   });
 
   // send response to client

@@ -10,12 +10,10 @@ import {
   MenuButton,
   useDisclosure,
   useColorModeValue,
-  Stack,
 } from "@chakra-ui/react";
-import { Switch, Route, useHistory } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import Users from "./Users";
-const Links = ["Dashboard", "All Applicants"];
+import { useNavigate } from "react-router-dom";
+
 
 const NavLink = ({ children }) => (
   <Link
@@ -26,29 +24,19 @@ const NavLink = ({ children }) => (
       textDecoration: "none",
       bg: useColorModeValue("gray.200", "gray.700"),
     }}
-    href={"#"}
+    href={"/applicants"}
   >
     {children}
   </Link>
 );
 
 export default function Simple() {
-  const history = useHistory();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
-  const handleClick = (event) => {
-    if (event.target.innerText === "All Applicants") {
-      history.push("/applicants");
-    }
-  };
 
   return (
     <>
-      <Switch>
-        {/* <Route exact path="/" component={ApplicantList} /> */}
-        <Route path="/applicants" component={Users} />
-      </Switch>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
@@ -59,17 +47,15 @@ export default function Simple() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>Register</Box>
+            <Box style={{cursor:'pointer'}} onClick={() => navigate("/")}>Register</Box>
             <HStack
               as={"nav"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {Links.map((link) => (
-                <NavLink onClick={handleClick} key={link}>
-                  {link}
-                </NavLink>
-              ))}
+              <NavLink onClick={() => navigate("/applicants")}>
+                All Applicants
+              </NavLink>
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
@@ -86,16 +72,6 @@ export default function Simple() {
             </Menu>
           </Flex>
         </Flex>
-
-        {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
       </Box>
     </>
   );

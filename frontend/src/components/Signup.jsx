@@ -18,7 +18,6 @@ import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { postData } from "./api.js";
 
-
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -61,27 +60,28 @@ export default function Signup() {
   countries.sort();
   let genders = ["Male", "Female", "Others"];
 
-  const handleFileUpload = (event) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      resume: event.target.files[0],
-    }));
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     // TODO: Send form data to backend API
-    postData(formData);
-    console.log(formData);
-    setFormData({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      resume: null,
-      country: "",
-      gender: "",
-    });
+    if (
+      formData.email === "" ||
+      formData.firstname === "" ||
+      formData.resume === ""
+    ) {
+      alert("Please enter all Required Details");
+    } else {
+      postData(formData);
+      console.log(formData);
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        resume: null,
+        country: "",
+        gender: "",
+      });
+    }
   };
 
   return (
@@ -94,7 +94,7 @@ export default function Signup() {
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
-            Sign up
+            Register
           </Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
             Please Enter All The Details ✌️
@@ -161,15 +161,11 @@ export default function Signup() {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <FormControl id="resume" mb={4}>
-              <FormLabel>Resume</FormLabel>
-              <Input
-                type="file"
-                // value=""
-                name="resume"
-                onChange={handleFileUpload}
-              />
+            <FormControl id="resume" mb={4} isRequired>
+              <FormLabel>Resume Link</FormLabel>
+              <Input type="url" name="resume" onChange={handleInputChange} />
             </FormControl>
+            <FormLabel>Country</FormLabel>
             <Select
               placeholder="Select option"
               name="country"
@@ -184,7 +180,7 @@ export default function Signup() {
                 );
               })}
             </Select>
-
+            <FormLabel>Gender</FormLabel>
             <Select
               placeholder="Select option"
               name="gender"
